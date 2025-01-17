@@ -1,17 +1,31 @@
 <template>
-    <div class="container">
-      <h2>Create New Task</h2>
-      <form @submit.prevent="createTask">
-        <input v-model="title" type="text" placeholder="Task Title" required />
-        <textarea v-model="description" placeholder="Task Description" required></textarea>
-        <input v-model="dueDate" type="datetime-local" required />
-        <select v-model="priority">
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-        <button type="submit">Create Task</button>
-      </form>
+    <div class="create-task-wrapper ">
+      <div class="create-task-inner animated fadeInUp">
+        <form @submit.prevent="createTask" class="animated fadeIn">
+          <h3 class="text-center mb-4">Create New Task</h3>
+          <div class="form-group">
+            <label>Title</label>
+            <input v-model="title" type="text" class="form-control" placeholder="Enter task title" required />
+          </div>
+          <div class="form-group mt-3">
+            <label>Description</label>
+            <textarea v-model="description" class="form-control" rows="3" placeholder="Enter task description" required></textarea>
+          </div>
+          <div class="form-group mt-3">
+            <label>Due Date</label>
+            <input v-model="dueDate" type="datetime-local" class="form-control" required />
+          </div>
+          <div class="form-group mt-3">
+            <label>Priority</label>
+            <select v-model="priority" class="form-control">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block w-100 mt-4">Create Task</button>
+        </form>
+      </div>
     </div>
   </template>
   
@@ -28,10 +42,9 @@
       };
     },
     created() {
-      // Set the Authorization header if the token exists
       const token = localStorage.getItem("authToken");
       if (token) {
-        setAuthToken(token); // Use the function to set the token in the header
+        setAuthToken(token);
       }
     },
     methods: {
@@ -54,22 +67,83 @@
   </script>
   
   <style scoped>
-  .container {
-    max-width: 400px;
+  .create-task-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 136px); /* Adjust based on header and footer height */
+    background: #f8f9fa;
+  }
+  
+  .create-task-inner {
+    width: 600px;
     margin: auto;
-    text-align: center;
+    background: #ffffff;
+    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
   }
   
-  input, textarea, select {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 8px;
+  .create-task-inner h3 {
+    color: #fe424d;
   }
   
-  button {
-    padding: 8px 16px;
-    cursor: pointer;
+  .form-control:focus {
+    border-color: #fe424d;
+    box-shadow: none;
+  }
+  
+  .btn-primary {
+    background-color: #fe424d;
+    border-color: #fe424d;
+  }
+  
+  .btn-primary:hover {
+    background-color: #e63b45;
+    border-color: #e63b45;
+  }
+  
+  .animated {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .fadeIn {
+    animation-name: fadeIn;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  .fadeIn {
+    animation-name: fadeIn;
+  }
+  
+  .fadeInLeft {
+    animation-name: fadeInLeft;
+  }
+  
+  .fadeInUp {
+    animation-name: fadeInUp;
   }
   </style>
+  
   

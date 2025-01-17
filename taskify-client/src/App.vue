@@ -1,16 +1,43 @@
-<script setup>
-</script>
-
 <template>
-  <router-view></router-view>
+  <div id="app">
+    <Header v-if="isLoggedIn" />
+    <router-view></router-view>
+    <Footer />
+  </div>
 </template>
 
+<script>
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Header,
+    Footer
+  },
+  computed: {
+    isLoggedIn() {
+      return !!localStorage.getItem('authToken')
+    }
+  }
+}
+</script>
+
 <style>
-/* Add global styles here */
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 60px; /* Height of the footer */
+}
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
 }
 </style>
+
