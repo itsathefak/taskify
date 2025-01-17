@@ -10,7 +10,7 @@
   </template>
   
   <script>
-  import api, { setAuthToken } from "../services/api";
+  import api from "../services/api";
   
   export default {
     data() {
@@ -22,16 +22,17 @@
     methods: {
       async login() {
         try {
-          const res = await api.post("/auth/login", {
+          const response = await api.post("/auth/login", {
             email: this.email,
             password: this.password,
           });
-  
-          localStorage.setItem("token", res.data.token);
-          setAuthToken(res.data.token);
+          const { token } = response.data;
+          // Store token in localStorage
+          localStorage.setItem("authToken", token);
+          // Redirect to dashboard after login
           this.$router.push("/dashboard");
         } catch (error) {
-          console.error(error.response?.data?.message || "Login failed");
+          console.error("Login failed", error);
         }
       },
     },
@@ -44,12 +45,14 @@
     margin: auto;
     text-align: center;
   }
+  
   input {
     display: block;
     width: 100%;
     margin: 10px 0;
     padding: 8px;
   }
+  
   button {
     padding: 8px 16px;
     cursor: pointer;

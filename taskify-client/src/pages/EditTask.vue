@@ -34,7 +34,7 @@
     methods: {
       async fetchTask() {
         try {
-          const res = await api.get(`/api/tasks/${this.taskId}`);
+          const res = await api.get(`/tasks/${this.taskId}`);
           const task = res.data;
           this.title = task.title;
           this.description = task.description;
@@ -46,7 +46,7 @@
       },
       async updateTask() {
         try {
-          await api.put(`/api/tasks/${this.taskId}`, {
+          await api.put(`/tasks/${this.taskId}`, {
             title: this.title,
             description: this.description,
             dueDate: this.dueDate,

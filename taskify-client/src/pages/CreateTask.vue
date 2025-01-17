@@ -16,7 +16,7 @@
   </template>
   
   <script>
-  import api from "../services/api";
+  import api, { setAuthToken } from "../services/api";
   
   export default {
     data() {
@@ -27,10 +27,17 @@
         priority: "medium",
       };
     },
+    created() {
+      // Set the Authorization header if the token exists
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        setAuthToken(token); // Use the function to set the token in the header
+      }
+    },
     methods: {
       async createTask() {
         try {
-          await api.post("/api/tasks", {
+          await api.post("/tasks", {
             title: this.title,
             description: this.description,
             dueDate: this.dueDate,
@@ -39,6 +46,7 @@
           this.$router.push("/dashboard");
         } catch (error) {
           console.error("Error creating task", error);
+          alert("Error creating task: " + error.response?.data?.message || error.message);
         }
       },
     },

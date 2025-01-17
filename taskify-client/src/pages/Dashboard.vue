@@ -2,6 +2,7 @@
     <div class="container">
       <h2>Your Tasks</h2>
       <button @click="createTask" class="create-task-btn">Create New Task</button>
+      <button @click="logout" class="logout-btn">Logout</button> <!-- Logout button -->
       <div v-if="tasks.length === 0">No tasks found.</div>
       <div v-else>
         <div v-for="task in tasks" :key="task._id" class="task-card">
@@ -34,7 +35,7 @@
     methods: {
       async getTasks() {
         try {
-          const res = await api.get("/api/tasks");
+          const res = await api.get("/tasks");
           this.tasks = res.data;
         } catch (error) {
           console.error("Error fetching tasks", error);
@@ -48,11 +49,17 @@
       },
       async deleteTask(taskId) {
         try {
-          await api.delete(`/api/tasks/${taskId}`);
+          await api.delete(`/tasks/${taskId}`);
           this.tasks = this.tasks.filter(task => task._id !== taskId);
         } catch (error) {
           console.error("Error deleting task", error);
         }
+      },
+      logout() {
+        // Remove token from localStorage
+        localStorage.removeItem("authToken");
+        // Redirect to login page
+        this.$router.push("/login");
       },
     },
   };
@@ -65,13 +72,18 @@
     text-align: center;
   }
   
-  .create-task-btn {
+  .create-task-btn,
+  .logout-btn {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
     margin-bottom: 20px;
+  }
+  
+  .logout-btn {
+    background-color: #f44336; /* Red color for logout */
   }
   
   .task-card {
