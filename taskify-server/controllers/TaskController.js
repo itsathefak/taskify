@@ -84,7 +84,7 @@ const deleteTask = async (req, res) => {
       return res.status(403).json({ message: 'Access denied' });
     }
 
-    await task.remove();
+    await Task.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: 'Task removed' });
   } catch (err) {
     res.status(500).json({ message: err.message });
